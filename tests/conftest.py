@@ -39,3 +39,4 @@ def chromium_page(initialize_browser_state, playwright: Playwright) -> Page:
         page = browser.new_page()
         yield page
         browser.close()
+
