@@ -8,6 +8,20 @@ from pages.create_course_page import CreateCoursePage
 @pytest.mark.courses
 @pytest.mark.regression
 
+def test_empty_courses_list(courses_list_page: CoursesListPage):
+    courses_list_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
+    courses_list_page.check_visible_courses_title()
+    courses_list_page.check_visible_empty_view()
+    courses_list_page.check_visible_create_course_button()
+
+    courses_list_page.sidebar.check_visible()
+    #остальные методы проверки сайдбара, я так понял не нужны
+    #courses_list_page.sidebar.click_logout()
+    #courses_list_page.sidebar.click_courses()
+    #courses_list_page.sidebar.click_dashboard()
+    courses_list_page.navbar.check_visible("username")
+
+
 def test_create_course(courses_list_page: CoursesListPage, create_course_page: CreateCoursePage):
     create_course_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create")
     create_course_page.check_visible_create_course_title()
