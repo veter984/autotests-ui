@@ -8,10 +8,10 @@ class CreateCourseFormComponent(BaseComponent):
         super().__init__(page)
 
         self.title_input = page.get_by_test_id('create-course-form-title-input').locator('input')
-        self.estimated_time_input = (page.get_by_test_id('create-course-form-estimated-time-input').locator('input'))
-        self.description_textarea = (
-            page.get_by_test_id('create-course-form-description-input').locator('textarea').first
-        )
+        self.estimated_time_input = page.get_by_test_id('create-course-form-estimated-time-input').locator('input')
+        self.description_textarea = page.get_by_test_id('create-course-form-description-input').locator(
+            'textarea').first
+
         self.max_score_input = page.get_by_test_id('create-course-form-max-score-input').locator('input')
         self.min_score_input = page.get_by_test_id('create-course-form-min-score-input').locator('input')
 

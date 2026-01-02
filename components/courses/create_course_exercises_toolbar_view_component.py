@@ -13,8 +13,6 @@ class CreateCourseExercisesToolbarViewComponent(BaseComponent):
     def check_visible(self):
         expect(self.title).to_be_visible()
         expect(self.title).to_have_text('Exercises')
-
-
         expect(self.create_exercise_button).to_be_visible()
 
     def click_create_exercise_button(self):
