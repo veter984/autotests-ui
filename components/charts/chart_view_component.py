@@ -15,6 +15,6 @@ class ChartViewComponent(BaseComponent):
     def check_visible(self):
 
         expect(self.title).to_be_visible()
-        expect(self.title).to_have_text(self.identifier)
+        expect(self.title).to_have_text(self.identifier.capitalize())
         expect(self.chart).to_be_visible()
 
