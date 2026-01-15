@@ -24,6 +24,9 @@ class RegistrationPage(BasePage):
         #self.password_input.fill(password)
         #expect(self.password_input).to_have_value(password)
 
+    def click_login_link(self):
+        self.login_link.click()
+
     def click_registration_button(self):
         self.registration_button.click()
 
