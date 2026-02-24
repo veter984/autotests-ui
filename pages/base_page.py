@@ -1,10 +1,12 @@
 from playwright.sync_api import Page, expect
 from typing import Pattern
 import allure
+from config import settings
 
 class BasePage:
     def __init__(self, page: Page):
         self.page = page
+
 
     def visit(self, url: str):
         with allure.step(f'Opening the url "{url}"'):
