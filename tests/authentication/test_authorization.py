@@ -25,7 +25,7 @@ from tools.routes import AppRoute
 @allure.sub_suite(AllureStory.AUTHORIZATION)
 class TestAuthorization:
     @pytest.mark.parametrize("email, password", [
-        ("user.name@gmail.com", "passsword"),
+        ("user.name@gmail.com", "password"),
         ("user.name@gmail.com", "  "),
         ("  ", "password")
     ])
@@ -77,6 +77,7 @@ class TestAuthorization:
             login_page: LoginPage,
             registration_page: RegistrationPage
     ):
+
         login_page.visit(AppRoute.LOGIN)
         login_page.click_registration_link()
 

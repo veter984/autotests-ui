@@ -4,12 +4,12 @@ from pages.authentication.registration_page import RegistrationPage
 from _pytest.fixtures import SubRequest
 from tools.playwright.pages import initialize_playwright_page
 from config import settings
+from tools.routes import AppRoute
 
-
-@pytest.fixture
+@pytest.fixture(params=settings.browsers)
 #def chromium_page(playwright: Playwright) -> Page:
-def chromium_page(request: SubRequest, playwright: Playwright) -> Page:  # Добавили аргумент request
-    yield from initialize_playwright_page(playwright, test_name=request.node.name)
+def page(request: SubRequest, playwright: Playwright) -> Page:  # Добавили аргумент request
+    yield from initialize_playwright_page(playwright, test_name=request.node.name, browser_type=request.param)
 
     #browser = playwright.chromium.launch(headless=False)
     #context = browser.new_context(record_video_dir='./videos')  # Создаем контекст для новой сессии браузера
@@ -34,7 +34,7 @@ def initialize_browser_state(playwright: Playwright):
     page = context.new_page()
 
     registration_page = RegistrationPage(page=page)
-    registration_page.visit('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration')
+    registration_page.visit(AppRoute.REGISTRATION)
     registration_page.registration_form.fill(email=settings.test_user.email,
                                              username=settings.test_user.username,
                                              password=settings.test_user.password)
@@ -44,11 +44,12 @@ def initialize_browser_state(playwright: Playwright):
     browser.close()
 
 
-@pytest.fixture
-def chromium_page_with_state(initialize_browser_state, request: SubRequest, playwright: Playwright) -> Page:
+@pytest.fixture(params=settings.browsers)
+def page_with_state(initialize_browser_state, request: SubRequest, playwright: Playwright) -> Page:
     yield from initialize_playwright_page(
         playwright,
         test_name=request.node.name,
+        browser_type=request.param,
         storage_state=settings.browser_state_file
     )
 
