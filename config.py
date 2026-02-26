@@ -9,14 +9,16 @@ class Browser(str, Enum):
     FIREFOX = "firefox"
     CHROMIUM = "chromium"
 
-
-class TestUser(BaseModel):
+class TestUser(BaseSettings):
+#class TestUser(BaseModel):
+    model_config = SettingsConfigDict(env_prefix="TEST_USER")
     email: EmailStr
     username: str
     password: str
 
-
-class TestData(BaseModel):
+class TestData(BaseSettings):
+#class TestData(BaseModel):
+    model_config = SettingsConfigDict(env_prefix="TEST_DATA")
     image_png_file: FilePath
 
 
@@ -33,18 +35,25 @@ class Settings(BaseSettings):
     test_data: TestData
     videos_dir: DirectoryPath
     tracing_dir: DirectoryPath
+    allure_results_dir: DirectoryPath
     browser_state_file: FilePath
+
+    def get_base_url(self) -> str:
+        return f"{self.app_url}/"
+
 
     @classmethod
     def initialize(cls) -> Self:  # Возвращает экземпляр класса Settings
         # Указываем пути
         videos_dir = DirectoryPath("./videos")
         tracing_dir = DirectoryPath("./tracing")
+        allure_results_dir = DirectoryPath("./allure-results")
         browser_state_file = FilePath("browser-state.json")
 
         # Создаем директории, если они не существуют
         videos_dir.mkdir(exist_ok=True)  # Если директория существует, то игнорируем ошибку
         tracing_dir.mkdir(exist_ok=True)
+        allure_results_dir.mkdir(exist_ok=True)
         # Создаем файл состояния браузера, если его нет
         browser_state_file.touch(exist_ok=True)  # Если файл существует, то игнорируем ошибку
 
@@ -52,11 +61,10 @@ class Settings(BaseSettings):
         return Settings(
             videos_dir=videos_dir,
             tracing_dir=tracing_dir,
+            allure_results_dir=allure_results_dir,  # Передаем allure_results_dir в инициализацию настроек
             browser_state_file=browser_state_file
         )
 
-    def get_base_url(self) -> str:
-        return f"{self.app_url}/"
 
 # Теперь вызываем метод initialize
 
