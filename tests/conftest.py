@@ -6,7 +6,7 @@ from tools.routes import AppRoute
 
 @pytest.fixture(scope="session")
 def initialize_browser_state(playwright: Playwright):
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=settings.headless)
         context = browser.new_context(base_url=settings.get_base_url())
         page = context.new_page()
 
@@ -29,14 +29,14 @@ def initialize_browser_state(playwright: Playwright):
 
 @pytest.fixture()
 def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -> Page:
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=settings.headless)
         context = browser.new_context(storage_state='browser-state.json')
         yield context.new_page()
         browser.close()
 
 @pytest.fixture()
 def chromium_page(initialize_browser_state, playwright: Playwright) -> Page:
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=settings.headless)
         page = browser.new_page()
         yield page
         browser.close()
